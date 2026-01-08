@@ -1,0 +1,159 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+import Select, { selectClasses } from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import CheckIcon from "@mui/icons-material/Check";
+import { useTranslation } from "react-i18next";
+import PhoneInput from "../inputs/PhoneInput";
+import formaImage from "../../assets/img/formImg.png";
+import galka from "../../assets/img/toast.svg";
+
+const optionSx = {
+  px: 2.5,
+  py: 1.5,
+  fontSize: 14,
+  fontFamily: "Neometric",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  cursor: "pointer",
+  "&:hover": { backgroundColor: "#F5F5F7" },
+  "&[aria-selected='true']": {
+    fontWeight: 500,
+    color: "#10355B",
+    backgroundColor: "#FFFFFF",
+  },
+  "& svg": { opacity: 0 },
+  "&[aria-selected='true'] svg": { opacity: 1 },
+};
+
+export default function Form() {
+  const [name, setName] = useState("");
+  const [tel, setTel] = useState("");
+  const [userCity, setUserCity] = useState("toshkent-shahri");
+  const { t } = useTranslation();
+
+  const handleNameChange = (e) => {
+    const cleanedValue = e.target.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s'\-]/g, "");
+    setName(cleanedValue);
+  };
+
+  const handleSend = async () => {
+    const pureTel = tel.replace(/\D/g, "");
+
+    if (name.trim() !== "" && pureTel.length >= 9 && userCity) {
+      const botToken = "8139440344:AAERuskhG8X2Ed-YdR8171JsTT5xXMYiD00";
+      const chatId = "-1002689018491";
+      const text = `📝 <b>Yangi ariza:</b>\n👤 Ism: ${name}\n📞 Tel: ${tel}\n📍 Shahar: ${userCity}`;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: text,
+            parse_mode: "HTML",
+          }),
+        });
+
+        setName("");
+        setTel("");
+
+        toast(
+          <div className="tost">
+            <img src={galka} alt="Done" />
+            <span className="tost__text">Успешно отправлено!</span>
+          </div>,
+          {
+            style: {
+              width: "100%",
+              padding: "10px",
+              background: "none",
+              boxShadow: "none",
+            },
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeButton: false,
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const cities = [
+    { value: "tashkent-city", key: "tashkentCity" },
+    { value: "tashkent-region", key: "tashkentRegion" },
+    { value: "samarkand", key: "samarkand" },
+    { value: "farghona", key: "farghona" },
+    { value: "bukhara", key: "bukhara" },
+    { value: "krozam", key: "krozam" },
+    { value: "andijon", key: "andijon" },
+    { value: "navoiy", key: "navoiy" },
+    { value: "namangan", key: "namangan" },
+    { value: "khiva", key: "khiva" },
+    { value: "qashqadaryo", key: "qashqadaryo" },
+    { value: "surxondaryo", key: "surxondaryo" },
+    { value: "jizzakh", key: "jizzakh" },
+  ];
+
+  return (
+    <div className="form">
+      <div className="container">
+        <div className="form__wrap">
+          <div className="form__desc" >
+            <div className="form__desc-txts">
+              <h2 className="form__desc-txts__title">{t("formTitle")}.</h2>
+              <p className="form__desc-txts__text">{t("formText")}</p>
+            </div>
+            <div className="form__desc-main">
+              <input
+                onChange={handleNameChange}
+                value={name}
+                type="text"
+                placeholder={t("firstLastName")}
+                className="form__desc-main__inp"
+              />
+              <PhoneInput value={tel} changeTel={setTel} />
+
+              <Select
+                placeholder={t("choose")}
+                indicator={<KeyboardArrowDown />}
+                value={userCity}
+                onChange={(e, newValue) => setUserCity(newValue)}
+                sx={{
+                  flex: 1,
+                  width: "100%",
+                  background: "#fff",
+                  borderRadius: "10px",
+                  "--Select-radius": "10px",
+                  "--Select-minHeight": "62px",
+                  border: "none",
+                  boxShadow: "0 0 0 1px #E4E4E7",
+                  "&.Mui-focused": { boxShadow: "0 0 0 2px #10355B" },
+                }}
+              >
+                {cities.map((city) => (
+                  <Option key={city.value} value={city.value} sx={optionSx}>
+                    {t(`${city.key}`)}
+                    <CheckIcon fontSize="small" />
+                  </Option>
+                ))}
+              </Select>
+
+              <button className="form__desc-main__btn" onClick={handleSend}>
+                {t("formBtn")}
+              </button>
+            </div>
+          </div>
+          <div className="form__img">
+            <img src={formaImage} alt="formaImage" id="sofa-image" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

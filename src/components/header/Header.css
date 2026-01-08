@@ -1,0 +1,33 @@
+.mobile-catalog {
+  position: fixed;
+  top: 7.1rem;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerAdaptive-catalog {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-catalog-btn{
+  background: #10355B;
+  border-radius: 14px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}

@@ -1,0 +1,60 @@
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import defaultImg from "../../assets/img/defaultImg.svg";
+import "./Slider.css";
+
+export default function ProductIdSlider({ info = [], onSelect }) {
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  return (
+    <div className="slider-container">
+      <div className="main-swiper-wrapper">
+        <Swiper
+          className="mySwiper2"
+          loop={true}
+          spaceBetween={10}
+          navigation={true}
+          thumbs={{ swiper: thumbsSwiper }}
+          modules={[FreeMode, Navigation, Thumbs]}
+        >
+          {info.map((item, index) => (
+            <SwiperSlide
+              key={index}
+              loop={true}
+              spaceBetween={10}
+              slidesPerView={4}
+              freeMode={true}
+              watchSlidesProgress={true}
+              modules={[FreeMode, Navigation, Thumbs]}
+            >
+              <img
+                src={item.original_image_url || `${defaultImg}`}
+                alt={`slide-${index}`}
+                style={{ cursor: "pointer" }}
+                onClick={() => onSelect && onSelect(item)}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      <div className="thumbs-swiper-wrapper">
+        <Swiper slidesPerView={4} spaceBetween={10} className="mySwiper">
+          {info?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={item.medium_image_url || defaultImg}
+                alt={`thumb-${index}`}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </div>
+  );
+}
