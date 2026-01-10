@@ -390,10 +390,17 @@
     margin: 0 auto;
     text-align: center;
   }
-  
+
   .contact-phone-data {
     display: flex;
     flex-direction: column;
+  }
+  
+
+  .call-btn {
+    img {
+      display: none;
+    }
   }
 
   .footer__btm-qr {
@@ -409,13 +416,17 @@
     display: none !important;
   }
 
-  .footer__main-map__desc-nav{
+  .footer__main-map__desc-nav {
     display: flex;
     gap: 5px;
     margin: 0;
   }
-   .footer__main-map__desc-nav__link{
+  .footer__main-map__desc-nav__link {
     padding: 9px 20px;
-   }
-}
+font-weight: 400;
+font-size: 12px;
+line-height: 15px;
+letter-spacing: -0.37px;
 
+  }
+}

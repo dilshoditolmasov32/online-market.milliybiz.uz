@@ -7,13 +7,12 @@
     display: flex;
     position: fixed;
     justify-content: space-between;
-    z-index: inherit;
     background: var(--white);
     border-top: 1px solid #d1d7df;
     bottom: 0;
     width: 100%;
     padding: 12px 20px;
-    z-index: 99;
+    z-index: 9999;
   }
 
   &__link {
