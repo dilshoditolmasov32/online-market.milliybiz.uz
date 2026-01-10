@@ -1,6 +1,4 @@
-// ----------------------------------------------------
-// GLOBAL STYLES (Desktop first)
-// ----------------------------------------------------
+
 
 .accordion-order {
   .MuiAccordionSummary-content {
@@ -81,7 +79,7 @@
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #e6e6e6;
-    flex-shrink: 0; /* Rasm kichrayib ketmasligi uchun */
+    flex-shrink: 0; 
 
     img {
       width: 100%;
@@ -101,7 +99,7 @@
     font-weight: 500;
     color: #000;
     display: flex;
-    align-items: center; /* Name va badge ni tekislash */
+    align-items: center;
     flex-wrap: wrap;
     gap: 8px;
   }
@@ -149,10 +147,6 @@
     }
   }
 }
-
-// ----------------------------------------------------
-// MOBILE STYLES (Max-width: 481px)
-// ----------------------------------------------------
 
 @media screen and (max-width: 481px) {
   

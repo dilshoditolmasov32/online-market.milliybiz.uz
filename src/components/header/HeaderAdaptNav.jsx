@@ -143,7 +143,6 @@ export default function HeaderAdaptNav() {
         </div>
       </ThemeProvider>
 
-      {/* Footer qismi o'zgarishsiz qoladi */}
       <div
         style={{
           display: "flex",

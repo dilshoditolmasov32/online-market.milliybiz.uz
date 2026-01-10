@@ -14,6 +14,7 @@ import { AuthProvider } from "./auth/context/AuthContext";
 
 import "./styles/scss/main.css";
 import "aos/dist/aos.css";
+import ScrollToTop from "./components/scrollTop/ScrollTop.jsx";
 
 const Home = lazy(() => import("./pages/home/Home.jsx"));
 const Products = lazy(() => import("./pages/products/Products"));
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <ScrollToTop/>
       <Suspense
       >
         <Auth />

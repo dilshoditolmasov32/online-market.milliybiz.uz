@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 import box from "../../assets/img/box.svg";
 import defaultImg from "../../assets/img/defaultImg.svg";
 import shield from "../../assets/img/shield.svg";
@@ -14,17 +13,19 @@ import wallet from "../../assets/img/wallet.svg";
 
 import { getProductId } from "../../service/product.service.js";
 import { AuthContext } from "../../auth/context/AuthContext.jsx";
+import { useDispatch } from "react-redux";
+import { addCartItem, optimisticAdd } from "../../store/cart";
 
 export default function SingleProduct() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { user, openAuth } = useContext(AuthContext);
 
-
   const [product, setProduct] = useState(null);
   const [currentImg, setCurrentImg] = useState(defaultImg);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -50,43 +51,62 @@ export default function SingleProduct() {
     toast.success("Muvaqqiyatli amalga oshirildi");
   };
 
-  const handleAddToCart = () => {
-    navigate("/basket")
+  const handleAddToCart = async () => {
+    try {
+      dispatch(
+        optimisticAdd({
+          product_id: product?.id,
+          quantity: 1,
+        })
+      );
+
+      toast.success("Mahsulot savatchaga qo'shildi");
+
+      await dispatch(
+        addCartItem({
+          product_id: product?.id,
+          quantity: 1,
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
+    // navigate("/basket")
   };
 
-  if (loading) {
-    return (
-      <div className="product-page skeleton-page">
-        <div className="container">
-          <div className="skeleton-nav"></div>
+  // if (loading) {
+  //   return (
+  //     <div className="product-page skeleton-page">
+  //       <div className="container">
+  //         <div className="skeleton-nav"></div>
 
-          <div className="productId-page">
-            <div className="sliderId-component">
-              <div className="skeleton-slider"></div>
+  //         <div className="productId-page">
+  //           <div className="sliderId-component">
+  //             <div className="skeleton-slider"></div>
 
-              <div className="product-info">
-                <div className="skeleton-line title"></div>
-                <div className="skeleton-line text"></div>
-                <div className="skeleton-line text"></div>
-                <div className="skeleton-line text"></div>
-              </div>
-            </div>
+  //             <div className="product-info">
+  //               <div className="skeleton-line title"></div>
+  //               <div className="skeleton-line text"></div>
+  //               <div className="skeleton-line text"></div>
+  //               <div className="skeleton-line text"></div>
+  //             </div>
+  //           </div>
 
-            <div className="product-sidebar">
-              <div className="skeleton-box"></div>
-              <div className="skeleton-features"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  if (error) return <p>{error}</p>;
-  if (!product) return <p>Продукт не найден</p>;
+  //           <div className="product-sidebar">
+  //             <div className="skeleton-box"></div>
+  //             <div className="skeleton-features"></div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  // if (error) return <p>{error}</p>;
+  // if (!product) return <p>Продукт не найден</p>;
 
   const navInfo = {
-    title: product.name,
-    total: product.in_stock ? 1 : 0,
+    title: product?.name,
+    total: product?.in_stock ? 1 : 0,
     discount: 0,
   };
 
@@ -98,7 +118,7 @@ export default function SingleProduct() {
         <div className="productId-page">
           <div className="sliderId-component">
             <ProductIdSlider
-              info={product.images || []}
+              info={product?.images || []}
               onSelect={(img) =>
                 setCurrentImg(img.original_image_url || defaultImg)
               }
@@ -111,7 +131,7 @@ export default function SingleProduct() {
                 </p>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: product.short_description || "",
+                    __html: product?.short_description || "",
                   }}
                 />
               </div>
@@ -122,7 +142,7 @@ export default function SingleProduct() {
                 </p>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: product.description || "",
+                    __html: product?.description || "",
                   }}
                 />
               </div>
@@ -131,19 +151,19 @@ export default function SingleProduct() {
 
           <div className="product-sidebar">
             <div className="purchase-box">
-              <p className="purchase-box__price">{product.formatted_price}</p>
+              <p className="purchase-box__price">{product?.formatted_price}</p>
 
               <div className="purchase-box__buttons">
-                <button onClick={handleAddToCart} disabled={!product.in_stock}>
+                <button onClick={handleAddToCart} disabled={!product?.in_stock}>
                   {t("addToCart")}
                 </button>
 
                 {user ? (
-                  <button onClick={handleBuy} disabled={!product.in_stock}>
+                  <button onClick={handleBuy} disabled={!product?.in_stock}>
                     {t("buyBtn")}
                   </button>
                 ) : (
-                  <button onClick={openAuth} disabled={!product.in_stock}>
+                  <button onClick={openAuth} disabled={!product?.in_stock}>
                     {t("buyBtn")}
                   </button>
                 )}

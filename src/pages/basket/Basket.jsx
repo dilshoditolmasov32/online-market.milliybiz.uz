@@ -28,7 +28,7 @@ export default function Basket() {
 
   return (
     <>
-      <Nav info={{ title: t("myCart"), total: data?.items_qty || 0 }} />
+      <Nav info={{ title: t("myCart"), total: 0 }} />
 
       {items.length > 0 ? (
         <div className="basket">
@@ -46,7 +46,6 @@ export default function Basket() {
                   <span className="basket__total-desc__text">
                     {data?.formatted_grand_total}
                   </span>
-                  {/* Agar API-dan eski narx (subtotal) kelsa shuni qo'ying */}
                   {data?.formatted_sub_total && (
                     <span className="basket__total-desc__old">
                       {data.formatted_sub_total}

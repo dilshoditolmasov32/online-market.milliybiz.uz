@@ -10,7 +10,7 @@ import formaImage from "../../assets/img/formImg.png";
 import galka from "../../assets/img/toast.svg";
 
 const optionSx = {
-  px: 2.5,
+  px: "24px",
   py: 1.5,
   fontSize: 14,
   fontFamily: "Neometric",
@@ -131,6 +131,7 @@ export default function Form() {
                   borderRadius: "10px",
                   "--Select-radius": "10px",
                   "--Select-minHeight": "62px",
+                  paddingX:"30px",
                   border: "none",
                   boxShadow: "0 0 0 1px #E4E4E7",
                   "&.Mui-focused": { boxShadow: "0 0 0 2px #10355B" },

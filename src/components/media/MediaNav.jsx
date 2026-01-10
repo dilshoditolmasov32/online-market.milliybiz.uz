@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useAuthMe from "../../hooks/useAuthMe.jsx";
+import { useContext } from "react";
+import { AuthContext } from "../../auth/context/AuthContext.jsx";
 
 export default function MediaNav() {
   const { t } = useTranslation();
-  const { userMe } = useAuthMe();
+  const { user, openAuth } = useContext(AuthContext);
 
   return (
     <div className="media">
@@ -56,10 +57,16 @@ export default function MediaNav() {
         </NavLink>
 
         <NavLink
+          to={user ? "/basket" : "#"}
+          onClick={(e) => {
+            if (!user) {
+              e.preventDefault();
+              openAuth();
+            }
+          }}
           className={({ isActive }) =>
             isActive ? "media__link choosen" : "media__link"
           }
-          to="/basket"
         >
           <svg
             width={20}
@@ -88,10 +95,16 @@ export default function MediaNav() {
         </NavLink>
 
         <NavLink
+          to={user ? "/account/profile" : "#"}
+          onClick={(e) => {
+            if (!user) {
+              e.preventDefault();
+              openAuth();
+            }
+          }}
           className={({ isActive }) =>
             isActive ? "media__link choosen" : "media__link"
           }
-          to="/account/profile"
         >
           <svg
             width={20}
@@ -106,9 +119,7 @@ export default function MediaNav() {
               fill="currentColor"
             />
           </svg>
-          <p className="media__link-text">
-            {userMe ? t("account") : t("enter")}
-          </p>
+          <p className="media__link-text">{user ? t("account") : t("enter")}</p>
         </NavLink>
       </div>
     </div>

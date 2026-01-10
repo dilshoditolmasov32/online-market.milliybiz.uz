@@ -39,6 +39,10 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    max-width: 1480px !important;
+    width: 100%;  
+    margin: 0;
+    padding: 0;
   }
 
   &__bottom {
@@ -59,7 +63,6 @@
         letter-spacing: 0%;
         vertical-align: middle;
         margin-left: 10px;
-        
       }
 
       &__wrap {
@@ -75,12 +78,13 @@
 
       &__text {
         padding: 10px 20px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 400;
         line-height: 16px;
         color: var(--gray);
         background: var(--white);
         border-radius: 10px;
+        white-space: nowrap !important;
       }
 
       &__discount {
@@ -100,6 +104,7 @@
       gap: 10px;
 
       &__text {
+        white-space: nowrap;
         &:hover {
           background: var(--primary-color);
           color: var(--white);
@@ -153,7 +158,6 @@
         width: 100%;
         max-height: 40px;
         height: 100%;
-        
 
         &__discount {
           display: none;
@@ -177,9 +181,9 @@
 
       .nav__bottom-desc {
         display: flex;
-        justify-content: space-between; // ✅ Равномерное распределение элементов
+        justify-content: space-between;
         align-items: center;
-        gap: 20px; // ✅ Добавляем отступ между блоками
+        gap: 20px;
         width: 100%;
 
         &__prod {
@@ -195,7 +199,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 10px; // ✅ Добавляем отступ внутри каждого блока
+          gap: 10px;
         }
 
         &__title {
@@ -227,7 +231,6 @@
 }
 
 @media screen and (max-width: 480px) {
-
   .nav {
     &__wrap {
       gap: 10px;
@@ -236,20 +239,19 @@
     &__top {
       display: flex;
       gap: 20px;
-        justify-content: flex-start;
+      justify-content: flex-start;
     }
 
-    &__back{
-      p{
+    &__back {
+      p {
         font-size: 14px;
       }
     }
 
     &__btns {
-      &-btn { 
+      &-btn {
         padding: 6px 10px;
         font-size: 14px;
-
       }
     }
 

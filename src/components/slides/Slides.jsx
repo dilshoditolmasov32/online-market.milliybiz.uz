@@ -35,6 +35,13 @@ export default function Slides({ lang = "ru" }) {
         loop
         pagination={{ clickable: true }}
         className="slide"
+        style={{
+          "--swiper-pagination-color": "#10355B",
+          "--swiper-pagination-bullet-inactive-color": "#FFFFFF",
+          "--swiper-pagination-bullet-inactive-opacity": "1",
+          "--swiper-pagination-bullet-size": "12px",
+          "--swiper-pagination-bullet-horizontal-gap": "10px",
+        }}
       >
         {images.map((item, index) => (
           <SwiperSlide key={index}>

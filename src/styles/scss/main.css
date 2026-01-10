@@ -623,6 +623,12 @@
   position: relative;
   z-index: 1;
   gap: 20px;
+  flex: 1;
+}
+.form__img {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 .form__img img {
   position: absolute;
@@ -741,7 +747,6 @@
   }
   .form__img img {
     left: 95%;
-    opacity: 0.8;
     width: 100%;
   }
 }
@@ -789,6 +794,10 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  max-width: 1480px !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 .nav__bottom {
   display: flex;
@@ -821,12 +830,13 @@
 }
 .nav__bottom-desc__text {
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 16px;
   color: var(--gray);
   background: var(--white);
   border-radius: 10px;
+  white-space: nowrap !important;
 }
 .nav__bottom-desc__discount {
   padding: 10px 20px;
@@ -843,6 +853,7 @@
   gap: 10px;
 }
 .nav__bottom-nav__text {
+  white-space: nowrap;
   transition: all ease-out 0.2s;
   font-size: 13.18px;
   font-weight: 400;
@@ -1808,7 +1819,7 @@
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #e6e6e6;
-  flex-shrink: 0; /* Rasm kichrayib ketmasligi uchun */
+  flex-shrink: 0;
 }
 .product-item__image img {
   width: 100%;
@@ -1826,7 +1837,7 @@
   font-weight: 500;
   color: #000;
   display: flex;
-  align-items: center; /* Name va badge ni tekislash */
+  align-items: center;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -2283,9 +2294,9 @@ select.profile-field__input {
 }
 .profile-page {
   background-color: #f5f7fb;
-  min-height: 100vh;
-  padding: 50px 16px 60px;
+  padding: 50px 0 80px;
   color: #111111;
+  height: 100%;
 }
 .profile-page__title {
   font-weight: 600;
@@ -3304,7 +3315,7 @@ select.profile-field__input {
   align-items: center;
   justify-content: center;
   display: flex;
-  height: 200px;
+  height: 400px;
   margin-bottom: 150px;
 }
 
@@ -3454,93 +3465,6 @@ select.profile-field__input {
   justify-content: center;
 }
 
-.media {
-  width: 100%;
-  display: none;
-  margin-top: 60px;
-}
-.media__wrap {
-  display: flex;
-  position: fixed;
-  justify-content: space-between;
-  z-index: inherit;
-  background: var(--white);
-  border-top: 1px solid #d1d7df;
-  bottom: 0;
-  width: 100%;
-  padding: 12px 20px;
-  z-index: 99;
-}
-.media__link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-  color: #969b9f;
-  text-transform: capitalize;
-}
-.media__link span {
-  color: var(--white);
-  border-radius: 50%;
-  background: var(--sale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  top: -6px;
-  border: 1px solid var(--white);
-  position: absolute;
-  right: 0;
-  font-size: 10px;
-  line-height: 117%;
-  letter-spacing: 0%;
-}
-.media__link-text {
-  position: relative;
-  color: #969b9f;
-  font-weight: 500;
-  max-width: 60px;
-  width: 100%;
-  flex: 1;
-  text-align: center;
-  font-size: 10px;
-  line-height: 100%;
-  letter-spacing: 0%;
-}
-
-.choosen p {
-  color: var(--primary-color);
-}
-
-.media__link {
-  color: #969b9f;
-}
-
-.media__link-text {
-  text-transform: capitalize;
-}
-
-.media__icon {
-  width: 20px;
-  height: 20px;
-  color: #969b9f;
-}
-
-.media__link.choosen .media__icon {
-  color: #10355b;
-}
-
-.media__link.choosen {
-  color: #10355b;
-}
-
-@media screen and (max-width: 480px) {
-  .media {
-    display: block;
-  }
-}
 .order {
   /* По умолчанию .order__bottomadapt скрыт на десктопе */
 }
@@ -3900,13 +3824,17 @@ select.profile-field__input {
   width: 100%;
 }
 
+.productId-page {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 1151px) {
   .skeleton-slider {
     width: 100%;
     height: 300px;
   }
 }
-.productId-page,
 .sliderId-component {
   display: flex;
   justify-content: space-between;
@@ -3923,10 +3851,9 @@ select.profile-field__input {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  text-indent: 30px;
   color: #7d7d7d;
   text-align: justify;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 .product-info__parameters-title, .product-info__details-title {
   font-size: 18px;
@@ -4159,6 +4086,8 @@ select.profile-field__input {
   padding: 32px 0 96px;
 }
 .main__wrap {
+  max-width: 1460px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -4684,8 +4613,12 @@ select.profile-field__input {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  max-width: 1460px;
+  width: 100%;
 }
 .products__main {
+  max-width: 1460px;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;

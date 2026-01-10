@@ -99,7 +99,7 @@ export default function Nav({
               >
                 {t("all")}
               </p>
-              <p
+              {/* <p
                 className="nav__bottom-nav__text-clear"
                 onClick={() => {
                   setFilters({
@@ -112,7 +112,7 @@ export default function Nav({
                 }}
               >
                 {t("clear")}
-              </p>
+              </p> */}
             </div>
           )}
         </div>
