@@ -9,6 +9,7 @@ import defaultImg from "../../assets/img/defaultImg.svg";
 import "./Slider.css";
 
 export default function ProductIdSlider({ info = [], onSelect }) {
+  // Thumbnail swiper instansiyasini saqlash uchun state
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
@@ -18,22 +19,17 @@ export default function ProductIdSlider({ info = [], onSelect }) {
           className="mySwiper2"
           loop={true}
           spaceBetween={10}
-          navigation={true}
-          thumbs={{ swiper: thumbsSwiper }}
+          navigation={true} // Navigation moduli yoqilgan
+          thumbs={{
+            swiper:
+              thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+          }}
           modules={[FreeMode, Navigation, Thumbs]}
         >
           {info.map((item, index) => (
-            <SwiperSlide
-              key={index}
-              loop={true}
-              spaceBetween={10}
-              slidesPerView={4}
-              freeMode={true}
-              watchSlidesProgress={true}
-              modules={[FreeMode, Navigation, Thumbs]}
-            >
+            <SwiperSlide key={index}>
               <img
-                src={item.original_image_url || `${defaultImg}`}
+                src={item.original_image_url || defaultImg}
                 alt={`slide-${index}`}
                 style={{ cursor: "pointer" }}
                 onClick={() => onSelect && onSelect(item)}
@@ -44,7 +40,15 @@ export default function ProductIdSlider({ info = [], onSelect }) {
       </div>
 
       <div className="thumbs-swiper-wrapper">
-        <Swiper slidesPerView={4} spaceBetween={10} className="mySwiper">
+        <Swiper
+          onSwiper={setThumbsSwiper} // BU YERDA: pastki swiperni tepaga bog'laymiz
+          spaceBetween={10}
+          slidesPerView={4}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+          className="mySwiper"
+        >
           {info?.map((item, index) => (
             <SwiperSlide key={index}>
               <img
