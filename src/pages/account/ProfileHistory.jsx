@@ -9,9 +9,11 @@ import checkIcon from "../../assets/img/check.svg";
 import cancelIcon from "../../assets/img/orderCancelIcon.svg";
 import durationIcon from "../../assets/img/durationIcon.svg";
 import productOrderImage from "../../assets/img/productPhoto.png";
+import useOrder from "../../hooks/useOrder";
 
 export default function OrdersHistory() {
   const { t } = useTranslation();
+ const {fetchOrders}=useOrder()
 
   const orderProducts = [
     [
@@ -23,6 +25,7 @@ export default function OrdersHistory() {
         discountPrice: "5 600 000 so’m",
         checkedIcon: checkIcon,
         statusKey: "delivered",
+        titleText:"Yetkazib berildi"
       },
     ],
     [
@@ -34,6 +37,7 @@ export default function OrdersHistory() {
         discountPrice: "5 600 000 so’m",
         checkedIcon: cancelIcon,
         statusKey: "canceled",
+        titleText:"Bekor qilindi"
       },
     ],
     [
@@ -45,6 +49,7 @@ export default function OrdersHistory() {
         discountPrice: "5 600 000 so’m",
         checkedIcon: durationIcon,
         statusKey: "inProgress",
+        titleText:"Jarayonda"
       },
     ],
   ];

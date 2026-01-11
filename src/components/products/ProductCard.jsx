@@ -49,7 +49,14 @@ export default function ProductCard({ info, addToCart }) {
         <div className="product__desc">
           <p className="product__desc-title">
             {info?.name || "Nomsiz mahsulot"}
-          </p>{" "}
+          </p>
+          <h3 className="product-price">
+            
+             {parseInt(info?.price)}
+          <span>
+            {t("value")}
+          </span>
+          </h3>
         </div>
       </div>
 

@@ -9,8 +9,37 @@ import defaultImg from "../../assets/img/defaultImg.svg";
 import "./Slider.css";
 
 export default function ProductIdSlider({ info = [], onSelect }) {
-  // Thumbnail swiper instansiyasini saqlash uchun state
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  if (!info || info.length === 0) {
+    return (
+      <div className="slider-container">
+        <div
+          className="main-swiper-wrapper skeleton-box"
+          style={{
+            height: "450px",
+            backgroundColor: "#eee",
+            borderRadius: "20px",
+          }}
+        ></div>
+        <div
+          className="thumbs-swiper-wrapper"
+          style={{ display: "flex", gap: "10px", marginTop: "20px" }}
+        >
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              style={{
+                width: "100px",
+                height: "100px",
+                backgroundColor: "#eee",
+                borderRadius: "10px",
+              }}
+            ></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="slider-container">
@@ -19,7 +48,7 @@ export default function ProductIdSlider({ info = [], onSelect }) {
           className="mySwiper2"
           loop={true}
           spaceBetween={10}
-          navigation={true} // Navigation moduli yoqilgan
+          navigation={true}
           thumbs={{
             swiper:
               thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
@@ -41,7 +70,7 @@ export default function ProductIdSlider({ info = [], onSelect }) {
 
       <div className="thumbs-swiper-wrapper">
         <Swiper
-          onSwiper={setThumbsSwiper} // BU YERDA: pastki swiperni tepaga bog'laymiz
+          onSwiper={setThumbsSwiper}
           spaceBetween={10}
           slidesPerView={4}
           freeMode={true}
@@ -50,7 +79,7 @@ export default function ProductIdSlider({ info = [], onSelect }) {
           className="mySwiper"
         >
           {info?.map((item, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} id="active-image">
               <img
                 src={item.medium_image_url || defaultImg}
                 alt={`thumb-${index}`}

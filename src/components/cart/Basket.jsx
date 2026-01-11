@@ -5,7 +5,8 @@ import { updateCartItem, removeCartItem } from "../../service/cart.service";
 import debounce from "lodash.debounce";
 import { useCallback, useState, useEffect } from "react";
 
-export default function Cart({ prod, refresh }) {
+export default function Cart({ prod, refresh,  isChecked,
+  onToggleCheck, }) {
   const { product } = prod;
   const { t } = useTranslation();
   const [localQty, setLocalQty] = useState(prod.quantity);
@@ -31,14 +32,17 @@ export default function Cart({ prod, refresh }) {
     const newQty = localQty + change;
     if (newQty < 1) return;
 
-    setLocalQty(newQty); 
-    debouncedUpdate(prod.id, newQty); 
+    setLocalQty(newQty);
+    debouncedUpdate(prod.id, newQty);
   };
 
   return (
     <div className="cart-elem">
-      <div className="cart-elem__select checked">
-        <Check size={16} />
+      <div
+        className={`cart-elem__select ${isChecked ? "checked" : ""}`}
+        onClick={() => onToggleCheck(prod.id)}
+      >
+        {isChecked && <Check size={16} />}
       </div>
 
       <div className="cart-elem__img-wrap">

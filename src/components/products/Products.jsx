@@ -11,7 +11,7 @@ export default function Products({ title }) {
   // Products.jsx ichida
   const searchQuery = useSelector((state) => state.search?.query) || "";
 
-  // 1. Redux-dan qidiruv so'zini olamiz (store-dagi nomini tekshiring)
+
 
   if (loading) return <Skeleton count={12} />;
 

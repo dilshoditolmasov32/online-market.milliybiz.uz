@@ -1,6 +1,7 @@
 import ProductIdSlider from "../../components/productSlider/ProductIdSlider.jsx";
 import Nav from "../../components/media/Nav.jsx";
 import Products from "../../components/products/Products.jsx";
+import BannerSkeleton from "../../components/skeleton/BannerSkeleton.jsx";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +17,7 @@ import { AuthContext } from "../../auth/context/AuthContext.jsx";
 import { useDispatch } from "react-redux";
 import { addCartItem, optimisticAdd } from "../../store/cart";
 
+
 export default function SingleProduct() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -25,11 +27,12 @@ export default function SingleProduct() {
 
   const [product, setProduct] = useState(null);
   const [currentImg, setCurrentImg] = useState(defaultImg);
-  const [loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadProduct = async () => {
+      setLoading(true);
       try {
         const res = await getProductId(id);
         setProduct(res.data.data);
@@ -71,38 +74,19 @@ export default function SingleProduct() {
     } catch (error) {
       console.error(error);
     }
-    // navigate("/basket")
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="product-page skeleton-page">
-  //       <div className="container">
-  //         <div className="skeleton-nav"></div>
+  if (loading) {
+    return (
+      <div className="product-page">
+        <div className="container">
+          <BannerSkeleton />
+        </div>
+      </div>
+    );
+  }
 
-  //         <div className="productId-page">
-  //           <div className="sliderId-component">
-  //             <div className="skeleton-slider"></div>
-
-  //             <div className="product-info">
-  //               <div className="skeleton-line title"></div>
-  //               <div className="skeleton-line text"></div>
-  //               <div className="skeleton-line text"></div>
-  //               <div className="skeleton-line text"></div>
-  //             </div>
-  //           </div>
-
-  //           <div className="product-sidebar">
-  //             <div className="skeleton-box"></div>
-  //             <div className="skeleton-features"></div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-  // if (error) return <p>{error}</p>;
-  // if (!product) return <p>Продукт не найден</p>;
+ 
 
   const navInfo = {
     title: product?.name,
