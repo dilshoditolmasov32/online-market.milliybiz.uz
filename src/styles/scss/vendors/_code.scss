@@ -35,7 +35,7 @@
     width: 100%;
     padding: 16px 18px;
     background: #f8f8f8;
-    border: 1px solid #C5C5C5;
+    border: 1px solid #c5c5c5;
     border-radius: 12px;
     font-weight: 700;
     font-size: 18px;
@@ -68,5 +68,59 @@
     color: #818181;
     text-align: center;
     line-height: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .code {
+    &__wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 14px;
+    }
+
+    &__top-text {
+      font-size: 12px;
+      margin-bottom: 10px;
+      padding-right: 20px;
+    }
+
+    &__input-box {
+      width: 40px;
+      height: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      vertical-align: middle;
+
+      &:focus {
+        border-color: var(--primary-color);
+      }
+    }
+
+    &__bot {
+      padding: 10px 15px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+
+    }
+
+    &__btn {
+       padding: 11px 15px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+    
+    }
+
+    &__info {
+      font-size: 14px;
+      color: #818181;
+      text-align: center;
+      line-height: 20px;
+    }
   }
 }

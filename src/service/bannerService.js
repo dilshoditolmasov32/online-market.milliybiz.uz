@@ -2,19 +2,30 @@ import api from "../api/axios";
 
 export const getCarouselImages = async (lang = "ru") => {
   try {
-    const response = await api.get("theme/customizations");
+    const response = await api.get("/theme/customizations");
 
-    const data = response.data.data.find(
-      (item) => item.type === "image_carousel"
+    const list = response?.data?.data;
+    if (!Array.isArray(list)) return [];
+
+    const carousel = list.find(
+      (item) => item?.type === "image_carousel"
+    );
+    if (!carousel) return [];
+
+    const translations = Array.isArray(carousel.translations)
+      ? carousel.translations
+      : [];
+
+    const translation = translations.find(
+      (t) => t?.locale === lang
     );
 
-    if (!data) return [];
+    const images =
+      translation?.options?.images ??
+      carousel?.options?.images ??
+      [];
 
-    const translation = data.translations.find(
-      (t) => t.locale === lang
-    );
-
-    const images = translation?.options?.images || data.options.images;
+    if (!Array.isArray(images)) return [];
 
     return images.map((img) => ({
       ...img,
@@ -25,4 +36,3 @@ export const getCarouselImages = async (lang = "ru") => {
     return [];
   }
 };
-

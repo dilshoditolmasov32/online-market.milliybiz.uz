@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
   animation: fadeIn 0.3s ease;
 }
 
@@ -52,6 +52,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+    margin-right: 8px;
   }
 }
 
@@ -71,15 +73,12 @@
 .auth__desc-text__back {
   width: 24px;
   height: 24px;
-
-
 }
 
 .auth__desc img {
   width: 24px;
   height: 24px;
   cursor: pointer;
- 
 }
 
 @keyframes fadeIn {
@@ -118,11 +117,8 @@
   }
 
   .auth__child {
-    padding: 20px;
- 
+    // padding: 20px;
   }
-
-  
 }
 
 .auth__wrap::-webkit-scrollbar {
@@ -140,5 +136,41 @@
 
   &:hover {
     background: #555;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .auth__child {
+    padding: 0;
+  }
+
+  .auth {
+    padding: 0;
+  }
+
+  .auth__desc {
+    padding-left: 14px;
+    padding-bottom: 0;
+  }
+
+  .auth__desc-text {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0%;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .auth__desc img {
+    width: 10px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  .close-btn {
+    svg {
+      width: 24px;
+    }
   }
 }

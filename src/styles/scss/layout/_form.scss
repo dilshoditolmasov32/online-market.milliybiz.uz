@@ -148,3 +148,14 @@
     display: none; // Kichik ekranda rasm o'chiriladi
   }
 }
+
+@media screen and (max-width: 480px) {
+
+.phone-input,
+.username-input {
+  padding: 10px 15px;
+  font-weight: 500;
+  font-size: 14px;
+
+}
+}
