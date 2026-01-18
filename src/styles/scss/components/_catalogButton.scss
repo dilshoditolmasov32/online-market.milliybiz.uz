@@ -305,9 +305,7 @@ $transition: all 0.3s ease;
   }
 }
 
-/* === MOBILE CATALOG (UZUM STYLE) === */
 @media screen and (max-width: 480px) {
-  /* Catalog tugmasi – faqat icon, kvadrat */
   .catalog-btn {
     padding: 14px 13px;
     border-radius: 14px;
@@ -317,12 +315,10 @@ $transition: all 0.3s ease;
     display: none;
   }
 
-  /* Desktop dropdownni mobile’da yashirish */
   .catalog-menu__dropdown {
     display: none;
   }
 
-  /* Fullscreen mobil menyu */
   .catalog-menu__mobile {
     position: fixed;
     inset: 0;

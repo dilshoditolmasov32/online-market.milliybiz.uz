@@ -7,26 +7,43 @@ import {
   Checkbox,
   AccordionSummary,
   TextField,
+  AccordionDetails // Bu muhim
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { NumericFormat } from "react-number-format";
 import { useTranslation } from "react-i18next"; 
 import useCategories from "../../hooks/useCategories";
 
+const theme = createTheme({
+  typography: { fontFamily: "Neometric" },
+});
+
 export default function CategoryDropdown() {
   const { categories } = useCategories();
   const { t, i18n } = useTranslation(); 
 
   const [checkedItems, setCheckedItems] = useState({});
+  const [expanded, setExpanded] = useState(false);  
+
+  const handleAccordionToggle = (panelId) => (_, isExpanded) => {
+    setExpanded(isExpanded ? panelId : false);
+  };
+
+  const handleCheckboxChange = (id) => {
+    console.log("Tanlangan ID:", id);
+    setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+    // Tanlanganda yopish
+    setExpanded(false);
+  };
+
   const [values, setValues] = useState({
     numberformatOne: "1000",
     numberformatTwo: "10000000",
   });
   const contentRef = useRef(null);
-
-  const theme = createTheme({
-    typography: { fontFamily: "Neometric" },
-  });
 
   const getNameByLang = (category) => {
     if (!category.translations) return category.name;
@@ -42,7 +59,6 @@ export default function CategoryDropdown() {
   return (
     <ThemeProvider theme={theme}>
       <div className="accordion-menu" ref={contentRef}>
-
         {categories?.map((category) => (
           <Accordion
             key={category.id}
@@ -50,6 +66,8 @@ export default function CategoryDropdown() {
             square
             elevation={0}
             sx={accordionSx}
+            expanded={expanded === category.id}
+            onChange={handleAccordionToggle(category.id)}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -60,34 +78,37 @@ export default function CategoryDropdown() {
               </Typography>
             </AccordionSummary>
 
-            {category?.translations?.map((el) => (
-              <div className="subcategory-list" key={el.id}>
-                <p>{el.name}</p>
-                <Checkbox
-                  checked={!!checkedItems[el.id]}
-                  onChange={() =>
-                    setCheckedItems({
-                      ...checkedItems,
-                      [el.id]: !checkedItems[el.id],
-                    })
-                  }
-                  icon={<span className="custom-checkbox-icon" />}
-                  checkedIcon={<CheckedIcon />}
-                />
-              </div>
-            ))}
+            {/* Kontentni AccordionDetails ichiga olish shart */}
+            <AccordionDetails sx={{ padding: 0 }}>
+              {category?.translations?.map((el) => (
+                <div className="subcategory-list" key={el.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <p>{el.name}</p>
+                  <Checkbox
+                    checked={!!checkedItems[el.id]}
+                    onChange={() => handleCheckboxChange(el.id)}
+                    icon={<span className="custom-checkbox-icon" />}
+                    checkedIcon={<CheckedIcon />}
+                  />
+                </div>
+              ))}
+            </AccordionDetails>
           </Accordion>
         ))}
 
         <div className="price-sort">
-          <div className="price-container">
+          <div className="price-container" style={{ display: 'flex', gap: '10px' }}>
             <NumericFormat
               customInput={TextField}
               placeholder={t("от")}
               onChange={handleChange}
               name="numberformatOne"
               sx={inputSx}
-              InputProps={{ disableUnderline: true }}
+              variant="standard"
+              slotProps={{
+                input: {
+                  disableUnderline: true,
+                },
+              }}
             />
             <NumericFormat
               customInput={TextField}
@@ -95,7 +116,12 @@ export default function CategoryDropdown() {
               onChange={handleChange}
               name="numberformatTwo"
               sx={inputSx}
-              InputProps={{ disableUnderline: true }}
+              variant="standard"
+              slotProps={{
+                input: {
+                  disableUnderline: true,
+                },
+              }}
             />
           </div>
         </div>
@@ -107,7 +133,7 @@ export default function CategoryDropdown() {
 const CheckedIcon = () => (
   <span className="custom-checkbox-checked">
     <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-      <path d="M15.5294 0.409577..." fill="black" />
+      <path d="M1 6L6 11L15 1" stroke="black" strokeWidth="2" fill="none" />
     </svg>
   </span>
 );
@@ -116,7 +142,7 @@ const accordionSx = {
   background: "none",
   border: "none",
   boxShadow: "none",
-  width: { md: "350px", xs:"300px" },
+  width: { md: "350px", xs: "100%" },
   "&::before": { display: "none" },
 };
 
@@ -127,10 +153,9 @@ const typographySx = {
 };
 
 const inputSx = {
-  width:"170px",
+  width: "170px",
   backgroundColor: "#FFFFFF",
   border: "1px solid #B9B9B9",
   borderRadius: "10px",
-  outline:"none",
   "& .MuiInputBase-input": { padding: "14px 20px" },
 };

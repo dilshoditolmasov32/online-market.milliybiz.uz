@@ -3043,9 +3043,7 @@ select.profile-field__input {
     display: none;
   }
 }
-/* === MOBILE CATALOG (UZUM STYLE) === */
 @media screen and (max-width: 480px) {
-  /* Catalog tugmasi – faqat icon, kvadrat */
   .catalog-btn {
     padding: 14px 13px;
     border-radius: 14px;
@@ -3053,11 +3051,9 @@ select.profile-field__input {
   .catalog-btn__text {
     display: none;
   }
-  /* Desktop dropdownni mobile’da yashirish */
   .catalog-menu__dropdown {
     display: none;
   }
-  /* Fullscreen mobil menyu */
   .catalog-menu__mobile {
     position: fixed;
     inset: 0;
@@ -4337,8 +4333,13 @@ select.profile-field__input {
 }
 
 .filter {
-  position: relative;
   width: 100%;
+  height: 100vh;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .filter__name {
   padding: 20px 20px;
@@ -4394,15 +4395,15 @@ select.profile-field__input {
 }
 .filter__wrap {
   background: rgba(0, 0, 0, 0.3960784314);
-  transform: translateX(-20px);
   position: fixed;
   display: flex;
   width: 100%;
   z-index: 100000;
   flex-direction: column;
   justify-content: end;
-  height: 100;
+  height: 100vh;
   bottom: 0;
+  pointer-events: none;
 }
 .filter__bottom {
   background: var(--body);
@@ -4437,12 +4438,21 @@ select.profile-field__input {
   color: var(--placeholderProds);
 }
 
-@media screen and (max-width: 480px) {
+.filter__bottom, .filter__top, .filter__name {
+  pointer-events: auto; /* Faqat mana shu qismlarda click ishlaydi */
+}
+
+@media screen and (max-width: 500px) {
   .pradapt {
     display: grid;
   }
   .filter {
-    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10001;
   }
   .clear-btn {
     margin-bottom: 30px;

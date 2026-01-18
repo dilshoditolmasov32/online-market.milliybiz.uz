@@ -62,9 +62,13 @@
 }
 
 .filter {
-  position: relative;
   width: 100%;
-
+  height: 100vh;
+z-index: 999;
+left: 0;
+right: 0;
+top: 0;
+bottom: 0;
   &__name {
     padding: 20px 20px;
     display: flex;
@@ -124,15 +128,15 @@
 
   &__wrap {
     background: #00000065;
-    transform: translateX(-20px);
     position: fixed;
     display: flex;
     width: 100%;
     z-index: 100000;
     flex-direction: column;
     justify-content: end;
-    height: 100;
+    height: 100vh;
     bottom: 0;
+    pointer-events: none; 
   }
 
   &__bottom {
@@ -172,13 +176,22 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+.filter__bottom, .filter__top, .filter__name {
+  pointer-events: auto; /* Faqat mana shu qismlarda click ishlaydi */
+}
+
+@media screen and (max-width: 500px) {
   .pradapt {
     display: grid;
   }
 
-  .filter {
-    display: block;
+ .filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10001;
   }
   .clear-btn {
     margin-bottom: 30px;

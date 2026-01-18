@@ -20,7 +20,6 @@ import { AiFillYoutube } from "react-icons/ai";
 import "./Header.css";
 
 export default function HeaderAdaptNav() {
-  // isLoading - loading holatini olish (hookingiz ichida bor deb faraz qilamiz)
   const { categories, isLoading } = useCategories();
   const { t, i18n } = useTranslation();
 
@@ -45,22 +44,27 @@ export default function HeaderAdaptNav() {
   return (
     <div
       style={{
-        background: "#fff",
-        padding: "20px",
-        height: "100%",
+       background: "#fff",
+        height: "100dvh", // To'liq ekran balandligi
+        display: "flex", // Flexbox yoqamiz
+        flexDirection: "column", // Elementlarni ustma-ust taxlaymiz
+        padding: "20px 20px 0 20px",
         position: "relative",
       }}
     >
       <ThemeProvider theme={theme}>
         <div
           style={{
-            flex: 1,
+            order: 1,
+          flex: 1, 
             overflowY: "auto",
-            paddingBottom: "50px",
+            paddingBottom: "20px",
           }}
           ref={contentRef}
         >
-          <h2>{t("categories")}</h2>
+          <h2 style={{
+            marginBottom:"30px"
+          }}>{t("categories")}</h2>
 
           {isLoading ? (
             <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
@@ -72,7 +76,7 @@ export default function HeaderAdaptNav() {
                     flexDirection: "column",
                     gap: 1,
                     padding: "10px 0",
-                    borderBottom: "1px solid #f0f0f0", // Chiziq orqali ajratish
+                    borderBottom: "1px solid #f0f0f0",
                   }}
                 >
                   <Box
@@ -82,7 +86,6 @@ export default function HeaderAdaptNav() {
                       alignItems: "center",
                     }}
                   >
-                    {/* Matn uchun joy (kulrangroq variant) */}
                     <Skeleton
                       variant="text"
                       width="60%"
@@ -90,7 +93,6 @@ export default function HeaderAdaptNav() {
                       animation="wave"
                       sx={{ bgcolor: "#f5f5f5" }}
                     />
-                    {/* O'ng tarafdagi icon uchun joy */}
                     <Skeleton
                       variant="circular"
                       width={24}
@@ -103,7 +105,6 @@ export default function HeaderAdaptNav() {
               ))}
             </Stack>
           ) : (
-            // MA'LUMOT KELGANDA ACCORDION CHIQADI
             categories?.map((category) => (
               <Accordion
                 key={category.id}
@@ -145,14 +146,15 @@ export default function HeaderAdaptNav() {
 
       <div
         style={{
-          display: "flex",
+          order: 2,
+         display: "flex",
           justifyContent: "space-between",
-          position: "fixed",
-          left: "20px",
-          right: "20px",
-          bottom: "20px", // pastdan joy tashlash uchun
+          alignItems: "center",
           background: "#fff",
-          zIndex: "999",
+          borderTop: "1px solid #eee", 
+          marginTop: "auto",
+          zIndex:"9999",
+          position: "absolute",
         }}
       >
         <div className="footer__titles-media">
