@@ -74,7 +74,7 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
 
           <div className="header__main">
             <div className="container">
-              <div className="header__main-wrap">
+              {/* <div className="header__main-wrap">
                 {(st || state) && (
                   <input
                     type="text"
@@ -186,7 +186,56 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
+<div className="header__main-wrap">
+  {/* Agar qidiruv ochiq bo'lsa, logoni yashiramiz va qidiruv satrini ko'rsatamiz */}
+  {(st || state) ? (
+    <div className="mobile-search-container">
+      <input
+        type="text"
+        className="header__main-inp"
+        placeholder={t("search")}
+        autoFocus
+      />
+    </div>
+  ) : (
+    <Link className="logo-link" to="/">
+      <h2 className="header__main-logo">Logo company</h2>
+    </Link>
+  )}
+
+  <div className="header__main-adaptive">
+    {/* Qidiruv tugmasi */}
+    <button
+      className="header__main-adaptive__btn"
+      onClick={() => {
+        sfunc(!st);
+        if (isCatalogOpen) setIsCatalogOpen(false); // Menyu ochiq bo'lsa yopamiz
+      }}
+    >
+      {state || st ? <X color="white" size={20} /> : <Search color="white" size={20} />}
+    </button>
+
+    {/* Menyu tugmasi */}
+    <button 
+      onClick={() => {
+        toggleMenu();
+        if (st || state) sfunc(false); // Qidiruv ochiq bo'lsa yopamiz
+      }} 
+      className="mobile-catalog-btn"
+    >
+      {isCatalogOpen ? <X color="white" size={20} /> : <Menu color="white" size={20} />}
+    </button>
+  </div>
+
+  {/* Menyu (Modal) */}
+  {isCatalogOpen && (
+    <div className="mobile-catalog">
+      <HeaderAdaptNav />
+    </div>
+  )}
+</div>
+
             </div>
           </div>
         </div>

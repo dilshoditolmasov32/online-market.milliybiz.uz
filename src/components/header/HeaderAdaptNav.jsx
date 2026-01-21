@@ -153,8 +153,12 @@ export default function HeaderAdaptNav() {
           background: "#fff",
           borderTop: "1px solid #eee", 
           marginTop: "auto",
-          zIndex:"9999",
-          position: "absolute",
+          padding: "15px 20px",
+          position: "fixed", // Absolute emas, Fixed qilsangiz qulayroq
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: "9999",
         }}
       >
         <div className="footer__titles-media">
