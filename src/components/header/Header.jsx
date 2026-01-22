@@ -15,7 +15,7 @@ import CatalogMenu from "../catalog-button/Catalogbutton.jsx";
 import HeaderAdaptNav from "./HeaderAdaptNav.jsx";
 import { AuthContext } from "../../auth/context/AuthContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import "./Header.css";
+
 export default function Header({ st, sfunc, state, func, setSearchQuery }) {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const { user, openAuth } = useContext(AuthContext);
@@ -28,7 +28,23 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
   const totalCount = useMemo(() => {
     return items.reduce((total, item) => total + (item.quantity || 0), 0);
   }, [items]);
-  const toggleMenu = () => setIsCatalogOpen((prev) => !prev);
+
+  const toggleMenu = () => {
+    setIsCatalogOpen((prev) => !prev);
+    // Menyu ochilganda qidiruvni yopish
+    if (!isCatalogOpen && (st || state)) {
+      sfunc(false);
+      func(false);
+    }
+  };
+
+  const toggleSearch = () => {
+    sfunc(!st);
+    // Qidiruv ochilganda menyuni yopish
+    if (!st && isCatalogOpen) {
+      setIsCatalogOpen(false);
+    }
+  };
 
   return (
     <>
@@ -39,12 +55,8 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
               <div className="header__top-wrap">
                 <div className="header__top-locate">
                   <img src={locate} alt="locate icon" />
-                  <p className="header__top-locate__text">
-                    {t("country")}:
-                  </p>
-                  <span className="header__top-locate__span">
-                    {t("city")}
-                  </span>
+                  <p className="header__top-locate__text">{t("country")}:</p>
+                  <span className="header__top-locate__span">{t("city")}</span>
                 </div>
                 <div className="header__top-nav">
                   <div className="header__top-nav__links">
@@ -74,173 +86,151 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
 
           <div className="header__main">
             <div className="container">
-              {/* <div className="header__main-wrap">
-                {(st || state) && (
-                  <input
-                    type="text"
-                    className="header__main-inp"
-                    placeholder={t("search")}
-                  />
-                )}
-                <Link className="logo-link" to="/">
-                  <h2
-                    className="header__main-logo"
-                    style={{ display: st || state ? "none" : "block" }}
-                  >
-                   Logo company
-                  </h2>
+              <div className="header__main-wrap">
+                {/* Desktop versiya */}
+                <Link className="logo-link" to="/" style={{ display: window.innerWidth > 769 ? 'block' : 'none' }}>
+                  <h2 className="header__main-logo">Logo company</h2>
                 </Link>
-                <div className="header__main-adaptive">
-                  <button
-                    className="header__main-adaptive__btn"
-                    onClick={() => {
-                      sfunc(!st);
-                      func(false);
-                    }}
-                  >
-                    {state || st ? (
-                      <X color="white" size={20} />
-                    ) : (
-                      <Search color="white" size={20} />
-                    )}
-                  </button>
 
-                  <button onClick={toggleMenu} className="mobile-catalog-btn">
-                    <span className="catalog-btn__icon">
-                      {isCatalogOpen ? (
-                        <X color="white" size={20} />
-                      ) : (
-                        <Menu color="white" size={20} />
-                      )}
-                    </span>
-                  </button>
-                  {isCatalogOpen && (
-                    <div className="mobile-catalog">
-                      <HeaderAdaptNav />
-                    </div>
-                  )}
-                </div>
-                <div className="header__main-center">
-                  <CatalogMenu />
-
-                  <div className="header__main-center__search">
-                    <input
-                      type="text"
-                      className="header__main-center__search-input"
-                      placeholder={t("search")}
-                      onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                    />
-
-                    <button className="header__main-center__search-button">
-                      <img
-                        src={searchLupa}
-                        alt="search"
-                        width={20}
-                        height={18}
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div className="header__main-nav">
-                  {user ? (
-                    <Link
-                      to="/account/profile"
-                      className="header__main-nav__elem header__user"
-                    >
-                      <img src={userIcon} alt="user-icon" />
-                      <div className="header__user-info">
-                        <span className="header__user-name">
-                          {user.full_name || user.username}
-                        </span>
-                        <button className="exit-btn">{t("Profil")}</button>
-                      </div>
-                    </Link>
-                  ) : (
-                    <button className="login-btn" onClick={openAuth}>
-                      <img src={userIcon} alt="user-icon" />
-                      <p className="header__main-nav__elem-text">
-                        {t("login")}
-                      </p>
-                    </button>
-                  )}
-
-                  <div
-                    className="link"
-                    onClick={(e) => {
-                      if (!user) {
-                        e.preventDefault();
-                        openAuth();
-                      }
-                    }}
-                  >
-                    <Link to={user ? "/basket" : "#"}>
-                      <div className="header__main-nav__elem">
-                        <img src={smallBasket} alt="basket icon" />
-                        <p className="header__main-nav__elem-text">
-                          {t("cart")}
-                        </p>
-                        <div className="header__main-nav__elem-span">
-                          {totalCount}
+                {/* Mobile versiya */}
+                {window.innerWidth <= 769 && (
+                  <>
+                    {st || state ? (
+                      // Search mode
+                      <>
+                        <div className="mobile-search-container">
+                          <input
+                            type="text"
+                            className="header__main-inp"
+                            placeholder={t("search")}
+                            autoFocus
+                            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                          />
                         </div>
+                        <div className="header__main-adaptive">
+                          <button
+                            className="header__main-adaptive__btn"
+                            onClick={toggleSearch}
+                          >
+                            <Search color="white" size={20} />
+                          </button>
+                          <button
+                            className="header__main-adaptive__btn"
+                            onClick={toggleSearch}
+                          >
+                            <X color="white" size={20} />
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      // Normal mode
+                      <>
+                        <Link className="logo-link" to="/">
+                          <h2 className="header__main-logo">Logo company</h2>
+                        </Link>
+                        <div className="header__main-adaptive">
+                          <button
+                            className="header__main-adaptive__btn"
+                            onClick={toggleSearch}
+                          >
+                            <Search color="white" size={20} />
+                          </button>
+                          <button onClick={toggleMenu} className="mobile-catalog-btn">
+                            {isCatalogOpen ? (
+                              <X color="white" size={20} />
+                            ) : (
+                              <Menu color="white" size={20} />
+                            )}
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+
+                {/* Desktop qidiruv va navigation */}
+                {window.innerWidth > 769 && (
+                  <>
+                    <div className="header__main-center">
+                      <CatalogMenu />
+
+                      <div className="header__main-center__search">
+                        <input
+                          type="text"
+                          className="header__main-center__search-input"
+                          placeholder={t("search")}
+                          onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                        />
+
+                        <button className="header__main-center__search-button">
+                          <img
+                            src={searchLupa}
+                            alt="search"
+                            width={20}
+                            height={18}
+                          />
+                        </button>
                       </div>
-                    </Link>
-                  </div>
-                </div>
-              </div> */}
-<div className="header__main-wrap">
-  {/* Agar qidiruv ochiq bo'lsa, logoni yashiramiz va qidiruv satrini ko'rsatamiz */}
-  {(st || state) ? (
-    <div className="mobile-search-container">
-      <input
-        type="text"
-        className="header__main-inp"
-        placeholder={t("search")}
-        autoFocus
-      />
-    </div>
-  ) : (
-    <Link className="logo-link" to="/">
-      <h2 className="header__main-logo">Logo company</h2>
-    </Link>
-  )}
+                    </div>
+                    <div className="header__main-nav">
+                      {user ? (
+                        <Link
+                          to="/account/profile"
+                          className="header__main-nav__elem header__user"
+                        >
+                          <img src={userIcon} alt="user-icon" />
+                          <div className="header__user-info">
+                            <span className="header__user-name">
+                              {user.full_name || user.username}
+                            </span>
+                            <button className="exit-btn">{t("Profil")}</button>
+                          </div>
+                        </Link>
+                      ) : (
+                        <button className="login-btn" onClick={openAuth}>
+                          <img src={userIcon} alt="user-icon" />
+                          <p className="header__main-nav__elem-text">
+                            {t("login")}
+                          </p>
+                        </button>
+                      )}
 
-  <div className="header__main-adaptive">
-    {/* Qidiruv tugmasi */}
-    <button
-      className="header__main-adaptive__btn"
-      onClick={() => {
-        sfunc(!st);
-        if (isCatalogOpen) setIsCatalogOpen(false); // Menyu ochiq bo'lsa yopamiz
-      }}
-    >
-      {state || st ? <X color="white" size={20} /> : <Search color="white" size={20} />}
-    </button>
-
-    {/* Menyu tugmasi */}
-    <button 
-      onClick={() => {
-        toggleMenu();
-        if (st || state) sfunc(false); // Qidiruv ochiq bo'lsa yopamiz
-      }} 
-      className="mobile-catalog-btn"
-    >
-      {isCatalogOpen ? <X color="white" size={20} /> : <Menu color="white" size={20} />}
-    </button>
-  </div>
-
-  {/* Menyu (Modal) */}
-  {isCatalogOpen && (
-    <div className="mobile-catalog">
-      <HeaderAdaptNav />
-    </div>
-  )}
-</div>
-
+                      <div
+                        className="link"
+                        onClick={(e) => {
+                          if (!user) {
+                            e.preventDefault();
+                            openAuth();
+                          }
+                        }}
+                      >
+                        <Link to={user ? "/basket" : "#"}>
+                          <div className="header__main-nav__elem">
+                            <img src={smallBasket} alt="basket icon" />
+                            <p className="header__main-nav__elem-text">
+                              {t("cart")}
+                            </p>
+                            <div className="header__main-nav__elem-span">
+                              {totalCount}
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {/* <HeaderAdaptNav /> */}
+
+      {/* Mobile menyu */}
+      {isCatalogOpen && (
+        <div className="mobile-catalog">
+          <HeaderAdaptNav onClose={() => setIsCatalogOpen(false)} />
+        </div>
+      )}
     </>
   );
 }

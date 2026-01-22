@@ -8,7 +8,7 @@ import {
   Typography,
   Checkbox,
   AccordionSummary,
-  Skeleton, 
+  Skeleton,
   Stack,
   Box,
 } from "@mui/material";
@@ -17,17 +17,12 @@ import useCategories from "../../hooks/useCategories";
 import { IoLogoInstagram } from "react-icons/io5";
 import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
-import "./Header.css";
 
-export default function HeaderAdaptNav() {
+export default function HeaderAdaptNav({ onClose }) {
   const { categories, isLoading } = useCategories();
   const { t, i18n } = useTranslation();
 
   const [checkedItems, setCheckedItems] = useState({});
-  const [values, setValues] = useState({
-    numberformatOne: "1000",
-    numberformatTwo: "10000000",
-  });
   const contentRef = useRef(null);
 
   const theme = createTheme({
@@ -44,27 +39,33 @@ export default function HeaderAdaptNav() {
   return (
     <div
       style={{
-       background: "#fff",
-        height: "100dvh", // To'liq ekran balandligi
-        display: "flex", // Flexbox yoqamiz
-        flexDirection: "column", // Elementlarni ustma-ust taxlaymiz
-        padding: "20px 20px 0 20px",
+        background: "#fff",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
         position: "relative",
       }}
     >
       <ThemeProvider theme={theme}>
         <div
-          style={{
-            order: 1,
-          flex: 1, 
-            overflowY: "auto",
-            paddingBottom: "20px",
-          }}
+         style={{
+    flex: 1,
+    overflowY: "auto",
+    padding: "20px",
+    paddingBottom: "120px", 
+  }}
           ref={contentRef}
         >
-          <h2 style={{
-            marginBottom:"30px"
-          }}>{t("categories")}</h2>
+          <h2
+            style={{
+              marginBottom: "30px",
+              fontSize: "20px",
+              fontWeight: "500",
+              color: "#10355B",
+            }}
+          >
+            {t("categories")}
+          </h2>
 
           {isLoading ? (
             <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
@@ -116,6 +117,8 @@ export default function HeaderAdaptNav() {
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   sx={{ padding: 0 }}
+                    // onClick={() => onClose()}  
+
                 >
                   <Typography component="span" sx={typographySx}>
                     {getNameByLang(category)}
@@ -124,7 +127,7 @@ export default function HeaderAdaptNav() {
 
                 {category?.translations?.map((el) => (
                   <div className="subcategory-list" key={el.id}>
-                    <p>{el.name}</p>
+                    <p onClick={onClose}>{el.name}</p>
                     <Checkbox
                       checked={!!checkedItems[el.id]}
                       onChange={() =>
@@ -144,54 +147,44 @@ export default function HeaderAdaptNav() {
         </div>
       </ThemeProvider>
 
-      <div
-        style={{
-          order: 2,
-         display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          background: "#fff",
-          borderTop: "1px solid #eee", 
-          marginTop: "auto",
-          padding: "15px 20px",
-          position: "fixed", // Absolute emas, Fixed qilsangiz qulayroq
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: "9999",
-        }}
-      >
+      {/* Footer - doimo pastda turadi */}
+      <div className="headerAdaptive-catalog">
         <div className="footer__titles-media">
           <a
             data-social="Instagram"
-            style={{ "--accent-color": "#FF0069", background: "#10355B" }}
+            style={{ background: "#10355B" }}
             href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <IoLogoInstagram />
+            <IoLogoInstagram color="#fff" size={20} />
           </a>
           <a
             data-social="Facebook"
-            style={{ "--accent-color": "#0866FF", background: "#10355B" }}
+            style={{ background: "#10355B" }}
             href="https://www.facebook.com/"
             target="_blank"
+            rel="noopener noreferrer"
           >
-            <FaFacebookF />
+            <FaFacebookF color="#fff" size={18} />
           </a>
           <a
             data-social="Telegram"
-            style={{ "--accent-color": "#26A5E4", background: "#10355B" }}
+            style={{ background: "#10355B" }}
             href="https://t.me/@fromMrX"
             target="_blank"
+            rel="noopener noreferrer"
           >
-            <FaTelegramPlane />
+            <FaTelegramPlane color="#fff" size={18} />
           </a>
           <a
-            data-social="Youtube "
-            style={{ "--accent-color": "#FF0000", background: "#10355B" }}
+            data-social="Youtube"
+            style={{ background: "#10355B" }}
             href="https://www.youtube.com/"
             target="_blank"
+            rel="noopener noreferrer"
           >
-            <AiFillYoutube />
+            <AiFillYoutube color="#fff" size={20} />
           </a>
         </div>
         <ChooseLang />
@@ -203,7 +196,10 @@ export default function HeaderAdaptNav() {
 const CheckedIcon = () => (
   <span className="custom-checkbox-checked">
     <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-      <path d="M15.5294 0.409577..." fill="black" />
+      <path
+        d="M15.5294 0.409577C15.2384 0.118627 14.7635 0.118627 14.4726 0.409577L5.29412 9.58804L1.52941 5.82333C1.23846 5.53238 0.763535 5.53238 0.472585 5.82333C0.181634 6.11428 0.181634 6.5892 0.472585 6.88015L4.76565 11.1732C5.0566 11.4642 5.53152 11.4642 5.82247 11.1732L15.5294 1.46627C15.8204 1.17532 15.8204 0.700527 15.5294 0.409577Z"
+        fill="white"
+      />
     </svg>
   </span>
 );
