@@ -36,5 +36,12 @@ button {
   cursor: pointer;
 }
 
+input:focus,
+input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+
 
 
