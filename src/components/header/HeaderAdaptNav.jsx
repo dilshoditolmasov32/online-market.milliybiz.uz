@@ -17,6 +17,7 @@ import useCategories from "../../hooks/useCategories";
 import { IoLogoInstagram } from "react-icons/io5";
 import { FaFacebookF, FaTelegramPlane } from "react-icons/fa";
 import { AiFillYoutube } from "react-icons/ai";
+import { MdOutlineCheck } from "react-icons/md";
 
 export default function HeaderAdaptNav({ onClose }) {
   const { categories, isLoading } = useCategories();
@@ -37,38 +38,28 @@ export default function HeaderAdaptNav({ onClose }) {
   };
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-      }}
-    >
+    <div className="header-adapt-nav">
       <ThemeProvider theme={theme}>
         <div
-         style={{
-    flex: 1,
-    overflowY: "auto",
-    padding: "20px",
-    paddingBottom: "120px", 
-  }}
+          style={{
+            flex: 1,
+            padding: "10px",
+          }}
           ref={contentRef}
         >
           <h2
             style={{
               marginBottom: "30px",
               fontSize: "20px",
-              fontWeight: "500",
-              color: "#10355B",
+              fontWeight: "600",
+              color: "#000000",
             }}
           >
             {t("categories")}
           </h2>
 
           {isLoading ? (
-            <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
+            <Stack spacing={2} sx={{ width: "100%" }}>
               {[1, 2, 3, 4, 5, 6].map((item) => (
                 <Box
                   key={item}
@@ -76,7 +67,6 @@ export default function HeaderAdaptNav({ onClose }) {
                     display: "flex",
                     flexDirection: "column",
                     gap: 1,
-                    padding: "10px 0",
                     borderBottom: "1px solid #f0f0f0",
                   }}
                 >
@@ -117,8 +107,6 @@ export default function HeaderAdaptNav({ onClose }) {
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   sx={{ padding: 0 }}
-                    // onClick={() => onClose()}  
-
                 >
                   <Typography component="span" sx={typographySx}>
                     {getNameByLang(category)}
@@ -128,17 +116,9 @@ export default function HeaderAdaptNav({ onClose }) {
                 {category?.translations?.map((el) => (
                   <div className="subcategory-list" key={el.id}>
                     <p onClick={onClose}>{el.name}</p>
-                    <Checkbox
-                      checked={!!checkedItems[el.id]}
-                      onChange={() =>
-                        setCheckedItems({
-                          ...checkedItems,
-                          [el.id]: !checkedItems[el.id],
-                        })
-                      }
-                      icon={<span className="custom-checkbox-icon" />}
-                      checkedIcon={<CheckedIcon />}
-                    />
+                    <div className="custom-checkbox-icon">
+                      <MdOutlineCheck />
+                    </div>
                   </div>
                 ))}
               </Accordion>
@@ -147,7 +127,6 @@ export default function HeaderAdaptNav({ onClose }) {
         </div>
       </ThemeProvider>
 
-      {/* Footer - doimo pastda turadi */}
       <div className="headerAdaptive-catalog">
         <div className="footer__titles-media">
           <a
@@ -210,10 +189,11 @@ const accordionSx = {
   boxShadow: "none",
   width: "100%",
   "&::before": { display: "none" },
+  overflowY: "auto",
 };
 
 const typographySx = {
-  color: "#7D7D7D",
-  fontSize: { md: "18px", xl: "22px" },
+  color: "#000",
+  fontSize: { md: "18px", xl: "12px" },
   ".Mui-expanded &": { color: "#000000" },
 };

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,20 +30,34 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
   }, [items]);
 
   const toggleMenu = () => {
-    setIsCatalogOpen((prev) => !prev);
-    // Menyu ochilganda qidiruvni yopish
-    if (!isCatalogOpen && (st || state)) {
-      sfunc(false);
-      func(false);
-    }
+    setIsCatalogOpen((prev) => {
+      const next = !prev;
+      if (next && (st || state)) {
+        sfunc(false);
+        func(false);
+      }
+      return next;
+    });
   };
 
   const toggleSearch = () => {
-    sfunc(!st);
-    // Qidiruv ochilganda menyuni yopish
-    if (!st && isCatalogOpen) {
-      setIsCatalogOpen(false);
-    }
+    sfunc((prev) => {
+      const next = !prev;
+      if (next && isCatalogOpen) {
+        setIsCatalogOpen(false);
+      }
+      return next;
+    });
+  };
+
+  const [recentSearches, setRecentSearches] = useState([
+    "kuzoynak g‘ilof",
+    "sichqoncha",
+    "quloqchin",
+  ]);
+
+  const removeRecentSearch = (index) => {
+    setRecentSearches((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -86,150 +100,175 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
 
           <div className="header__main">
             <div className="container">
-              <div className="header__main-wrap">
-                {/* Desktop versiya */}
-                <Link className="logo-link" to="/" style={{ display: window.innerWidth > 769 ? 'block' : 'none' }}>
+              <div
+                className={`header__main-wrap ${
+                  st || state ? "is-search-open" : ""
+                }`}
+              >
+                <Link className="logo-link" to="/">
                   <h2 className="header__main-logo">Logo company</h2>
                 </Link>
 
-                {/* Mobile versiya */}
-                {window.innerWidth <= 769 && (
-                  <>
-                    {st || state ? (
-                      // Search mode
-                      <>
-                        <div className="mobile-search-container">
-                          <input
-                            type="text"
-                            className="header__main-inp"
-                            placeholder={t("search")}
-                            autoFocus
-                            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                          />
-                        </div>
-                        <div className="header__main-adaptive">
-                          <button
-                            className="header__main-adaptive__btn"
-                            onClick={toggleSearch}
-                          >
-                            <Search color="white" size={20} />
-                          </button>
-                          <button
-                            className="header__main-adaptive__btn"
-                            onClick={toggleSearch}
-                          >
-                            <X color="white" size={20} />
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      // Normal mode
-                      <>
-                        <Link className="logo-link" to="/">
-                          <h2 className="header__main-logo">Logo company</h2>
-                        </Link>
-                        <div className="header__main-adaptive">
-                          <button
-                            className="header__main-adaptive__btn"
-                            onClick={toggleSearch}
-                          >
-                            <Search color="white" size={20} />
-                          </button>
-                          <button onClick={toggleMenu} className="mobile-catalog-btn">
-                            {isCatalogOpen ? (
-                              <X color="white" size={20} />
-                            ) : (
-                              <Menu color="white" size={20} />
-                            )}
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </>
-                )}
-
-                {/* Desktop qidiruv va navigation */}
-                {window.innerWidth > 769 && (
-                  <>
-                    <div className="header__main-center">
-                      <CatalogMenu />
-
-                      <div className="header__main-center__search">
+                <div className="header__main-adaptive">
+                  {st || state ? (
+                    <div className="header__main-adaptive__search-open">
+                      <div className="mobile-search-container">
                         <input
-                          type="text"
-                          className="header__main-center__search-input"
+                          className="header__main-inp"
                           placeholder={t("search")}
-                          onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                          autoFocus
+                          onChange={(e) =>
+                            dispatch(setSearchQuery(e.target.value))
+                          }
                         />
 
-                        <button className="header__main-center__search-button">
-                          <img
-                            src={searchLupa}
-                            alt="search"
-                            width={20}
-                            height={18}
-                          />
+                        <button className="header__main-adaptive__search">
+                          <Search size={20} color="white" />
                         </button>
-                      </div>
-                    </div>
-                    <div className="header__main-nav">
-                      {user ? (
-                        <Link
-                          to="/account/profile"
-                          className="header__main-nav__elem header__user"
-                        >
-                          <img src={userIcon} alt="user-icon" />
-                          <div className="header__user-info">
-                            <span className="header__user-name">
-                              {user.full_name || user.username}
-                            </span>
-                            <button className="exit-btn">{t("Profil")}</button>
-                          </div>
-                        </Link>
-                      ) : (
-                        <button className="login-btn" onClick={openAuth}>
-                          <img src={userIcon} alt="user-icon" />
-                          <p className="header__main-nav__elem-text">
-                            {t("login")}
-                          </p>
-                        </button>
-                      )}
 
-                      <div
-                        className="link"
-                        onClick={(e) => {
-                          if (!user) {
-                            e.preventDefault();
-                            openAuth();
-                          }
-                        }}
-                      >
-                        <Link to={user ? "/basket" : "#"}>
-                          <div className="header__main-nav__elem">
-                            <img src={smallBasket} alt="basket icon" />
-                            <p className="header__main-nav__elem-text">
-                              {t("cart")}
-                            </p>
-                            <div className="header__main-nav__elem-span">
-                              {totalCount}
+                        {(st || state) && (
+                          <div className="search-dropdown">
+                            <div className="search-dropdown__header">
+                              <span>Yaqinda izlaganlaringiz</span>
                             </div>
+
+                            <ul className="search-dropdown__list">
+                              {recentSearches.map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="search-dropdown__item"
+                                >
+                                  <span className="text">{item}</span>
+
+                                  <button
+                                    className="remove"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      removeRecentSearch(index);
+                                    }}
+                                  >
+                                    ×
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                        </Link>
+                        )}
                       </div>
+
+                      <button
+                        className="header__main-adaptive__menu"
+                        onClick={toggleSearch}
+                      >
+                        <X size={20} color="white" />
+                      </button>
                     </div>
-                  </>
-                )}
+                  ) : (
+                    <div className="header__main-adaptive__default">
+                      <button
+                        className="header__main-adaptive__search"
+                        onClick={toggleSearch}
+                      >
+                        <Search size={20} color="white" />
+                      </button>
+
+                      <button
+                        className="header__main-adaptive__menu"
+                        onClick={toggleMenu}
+                      >
+                        {isCatalogOpen ? (
+                          <X size={20} color="white" />
+                        ) : (
+                          <Menu size={20} color="white" />
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <>
+                  <div className="header__main-center">
+                    <CatalogMenu />
+
+                    <div className="header__main-center__search">
+                      <input
+                        type="text"
+                        className="header__main-center__search-input"
+                        placeholder={t("search")}
+                        onChange={(e) =>
+                          dispatch(setSearchQuery(e.target.value))
+                        }
+                      />
+
+                      <button className="header__main-center__search-button">
+                        <img
+                          src={searchLupa}
+                          alt="search"
+                          width={20}
+                          height={18}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="header__main-nav">
+                    {user ? (
+                      <Link
+                        to="/account/profile"
+                        className="header__main-nav__elem header__user"
+                      >
+                        <img src={userIcon} alt="user-icon" />
+                        <div className="header__user-info">
+                          <span className="header__user-name">
+                            {user.full_name || user.username}
+                          </span>
+                          <button className="exit-btn">{t("Profil")}</button>
+                        </div>
+                      </Link>
+                    ) : (
+                      <button className="login-btn" onClick={openAuth}>
+                        <img src={userIcon} alt="user-icon" />
+                        <p className="header__main-nav__elem-text">
+                          {t("login")}
+                        </p>
+                      </button>
+                    )}
+
+                    <div
+                      className="link"
+                      onClick={(e) => {
+                        if (!user) {
+                          e.preventDefault();
+                          openAuth();
+                        }
+                      }}
+                    >
+                      <Link to={user ? "/basket" : "#"}>
+                        <div className="header__main-nav__elem">
+                          <img src={smallBasket} alt="basket icon" />
+                          <p className="header__main-nav__elem-text">
+                            {t("cart")}
+                          </p>
+                          <div className="header__main-nav__elem-span">
+                            {totalCount}
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </>
+
+                <></>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile menyu */}
       {isCatalogOpen && (
-        <div className="mobile-catalog">
-          <HeaderAdaptNav onClose={() => setIsCatalogOpen(false)} />
-        </div>
+      
+          <div onClick={(e) => e.stopPropagation()}>
+            <HeaderAdaptNav onClose={() => setIsCatalogOpen(false)} />
+          </div>
       )}
     </>
   );
