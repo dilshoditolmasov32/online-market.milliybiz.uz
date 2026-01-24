@@ -357,6 +357,7 @@
     font-size: 16px;
     flex: 1;
     min-width: 0;
+    outline: none;
   }
   .header__main-inp::-moz-placeholder {
     color: var(--gray);
@@ -899,7 +900,6 @@
   padding: 16px 18px;
   width: 100%;
   font-weight: 500;
-  font-style: Medium;
   font-size: 16px;
   line-height: 150%;
   letter-spacing: 0%;
@@ -945,12 +945,46 @@
   }
 }
 @media screen and (max-width: 770px) {
+  .form {
+    background: var(--light-gray);
+    position: relative;
+    overflow: hidden;
+  }
   .form__wrap {
-    padding: 40px 0 48px;
-    justify-content: center;
+    display: flex;
+    padding: 20px 0 40px;
+    position: relative;
+    z-index: 1;
+    gap: 20px;
   }
   .form__img {
     display: none;
+  }
+  .form__desc {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  .form__desc-txts__title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 40px;
+  }
+  .form__desc-txts__text {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .form__desc-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form__desc-main__inp {
+    padding: 14px 16px;
+  }
+  .form__desc-main__btn {
+    padding: 14px 16px;
   }
 }
 @media screen and (max-width: 480px) {

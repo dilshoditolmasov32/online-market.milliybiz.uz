@@ -76,7 +76,7 @@ export default function Form() {
             autoClose: 3000,
             hideProgressBar: true,
             closeButton: false,
-          }
+          },
         );
       } catch (err) {
         console.log(err);
@@ -104,7 +104,7 @@ export default function Form() {
     <div className="form">
       <div className="container">
         <div className="form__wrap">
-          <div className="form__desc" >
+          <div className="form__desc">
             <div className="form__desc-txts">
               <h2 className="form__desc-txts__title">{t("formTitle")}.</h2>
               <p className="form__desc-txts__text">{t("formText")}</p>
@@ -130,11 +130,11 @@ export default function Form() {
                   background: "#fff",
                   borderRadius: "10px",
                   "--Select-radius": "10px",
-                  "--Select-minHeight": "62px",
-                  paddingX:"30px",
                   border: "none",
                   boxShadow: "0 0 0 1px #E4E4E7",
                   "&.Mui-focused": { boxShadow: "0 0 0 2px #10355B" },
+                  px: { xs: "16px", md: "30px" },
+                  py: { xs: "14px", md: "24px" },
                 }}
               >
                 {cities.map((city) => (

@@ -16,7 +16,7 @@ import HeaderAdaptNav from "./HeaderAdaptNav.jsx";
 import { AuthContext } from "../../auth/context/AuthContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Header({ st, sfunc, state, func, setSearchQuery }) {
+export default function Header({ st, sfunc, state, func }) {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const { user, openAuth } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -116,10 +116,7 @@ export default function Header({ st, sfunc, state, func, setSearchQuery }) {
                         <input
                           className="header__main-inp"
                           placeholder={t("search")}
-                          autoFocus
-                          onChange={(e) =>
-                            dispatch(setSearchQuery(e.target.value))
-                          }
+                       
                         />
 
                         <button className="header__main-adaptive__search">
