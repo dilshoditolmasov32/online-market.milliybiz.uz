@@ -8,7 +8,7 @@ $container-width: 1450px;
 
 .profile-page {
   background-color: $bg-light;
-  padding: 50px 0 80px;
+  padding: 50px 20px 80px;
   color: $color-black;
   height: 100%;
   &__title {
@@ -103,7 +103,9 @@ $container-width: 1450px;
     background-color: #fff;
     cursor: pointer;
     color: $color-black;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
     border-radius: 12px;
     &--active {
       background-color: $color-main;
@@ -122,10 +124,10 @@ $container-width: 1450px;
 }
 
 .profile-content {
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 }
 
 .profile-card {
@@ -142,8 +144,13 @@ $container-width: 1450px;
   }
 
   &__title {
-    font-size: 16px;
     font-weight: 600;
+font-weight: 600;
+font-size: 24px;
+line-height: 150%;
+letter-spacing: 0%;
+vertical-align: middle;
+
   }
 
   &__icon {
@@ -154,15 +161,6 @@ $container-width: 1450px;
     align-items: center;
     justify-content: center;
     background-color: #e9f1fb;
-
-    &--user::before {
-      content: "👤";
-      font-size: 16px;
-    }
-    &--location::before {
-      content: "📍";
-      font-size: 16px;
-    }
   }
 
   &__grid {
@@ -174,8 +172,6 @@ $container-width: 1450px;
     }
   }
 }
-
-/* PROFILE FIELDS */
 
 .profile-field {
   display: flex;
@@ -421,34 +417,25 @@ $container-width: 1450px;
   }
 }
 
-// @media (max-width: 768px) {
-//   .profile-page {
-//     padding-inline: 12px;
-//   }
+@media (max-width: 769px) {
+  .profile-content {
+    flex: 1 1 auto;
+  }
+  .profile-card {
+    width: 100%;
+    max-width: none; 
+      &__title {
+  font-size: 16px;
 
-//   .profile-page__title {
-//     font-size: 20px;
-//   }
-
-//   .order-item {
-//     grid-template-columns: 56px 1fr;
-//     grid-template-rows: auto auto;
-//   }
-
-//   .order-item__price-wrap {
-//     grid-column: 1 / -1;
-//     align-items: flex-end;
-//   }
-// }
-
-@media (max-width: 481px) {
+  }
+  }
   .profile-page {
     padding: 20px 12px;
 
-    &__layout{
+    &__layout {
       width: 100%;
     }
-
+   
     &__title {
       font-weight: 500;
       font-size: 16px !important;
@@ -457,26 +444,16 @@ $container-width: 1450px;
     }
 
     .profile-sidebar {
+      padding: 0;
       border-radius: 10px;
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-top: 0;
       gap: 10px;
       &__item {
         flex: 1;
-        width: 100%;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        padding: 10px 14px;
-        text-align: left;
-        border: none;
-        background-color: #fff;
-        color: #000000  ;
-        border-radius: 10px;
-        &--logout{
+        padding: 14px 16px;
+        &--logout {
           color: #ca0808;
         }
       }

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useOtp } from "../hooks/useOtp.jsx";
 import { AuthContext } from "../auth/context/AuthContext.jsx";
 
-export default function Code({ title, setBack, phone }) {
+export default function Code({ title, setBack, phone, fullName }) {
   const [code, setCode] = useState(Array(6).fill(""));
   const [localError, setLocalError] = useState("");
   const [isResendDisabled, setIsResendDisabled] = useState(true);
@@ -28,24 +28,23 @@ export default function Code({ title, setBack, phone }) {
 
     return () => clearInterval(timer);
   }, [isResendDisabled, resendTimeout, setBack, title]);
+const handleVerifyCode = async () => {
+  setLocalError("");
 
-  const handleVerifyCode = async () => {
-    setLocalError("");
+  const formattedCode = code.join("").trim();
+  if (formattedCode.length !== 6) {
+    setLocalError(t("fillAllCells"));
+    return;
+  }
 
-    const formattedCode = code.join("").trim();
-    if (formattedCode.length !== 6) {
-      setLocalError(t("fillAllCells"));
-      return;
-    }
+  const cleanPhone = phone.replace(/\D/g, "");
+  
+  const result = await verifyOtp(cleanPhone, formattedCode, fullName);
 
-    const cleanPhone = phone.replace(/\D/g, "");
-    const result = await verifyOtp(cleanPhone, formattedCode);
-
-    if (result?.success) {
-      await login(result.data);
-    }
-  };
-
+  if (result?.success) {
+    await login(result.data);
+  }
+};
   const handleResend = async () => {
     const cleanPhone = phone.replace(/\D/g, "");
     const result = await requestOtp(cleanPhone);

@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import CheckIcon from "@mui/icons-material/Check";
 import { useUserProfile } from "../../hooks/useUserProfile";
 
 import userAboutIcon from "../../assets/img/user-about.svg";
@@ -21,7 +20,7 @@ function ProfileInfo() {
       <div className="profile-card">
         <div className="profile-card__header">
           <img src={userAboutIcon} alt={t("profile.userIcon")} />
-          <h2>{t("personalInfo")}</h2>
+          <h2 className="profile-card__title">{t("personalInfo")}</h2>
         </div>
 
         <div className="profile-card__grid profile-card__grid--two">
@@ -57,7 +56,7 @@ function ProfileInfo() {
       <div className="profile-card">
         <div className="profile-card__header">
           <img src={locationIcon} alt={t("locationIcon")} />
-          <h2>{t("address")}</h2>
+          <h2 className="profile-card__title">{t("address")}</h2>
         </div>
 
         <div className="profile-card__grid profile-card__grid--two">

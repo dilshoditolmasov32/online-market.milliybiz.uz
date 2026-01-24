@@ -129,7 +129,7 @@
     display: flex;
     align-items: center;
     gap: 30px;
-    padding: 40px 20px;
+    padding: 40px 0;
   }
   .form__img img {
     left: 95%;
@@ -146,6 +146,7 @@
 
   &__wrap {
     display: flex;
+    justify-content: center;
     padding: 20px 0 40px;
     position: relative;
     z-index: 1;
@@ -161,6 +162,7 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
+    width: 100%;
 
     &-txts {
       &__title {
@@ -182,11 +184,11 @@
       gap: 10px;
 
       &__inp {
-        padding: 14px 16px;
+        padding: 17px 16px;
       }
 
       &__btn {
-        padding: 14px 16px;
+        padding: 17px 16px;
       }
     }
   }

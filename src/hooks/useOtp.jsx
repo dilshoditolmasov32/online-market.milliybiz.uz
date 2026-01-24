@@ -5,11 +5,11 @@ export const useOtp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const requestOtp = async (phone, fullName) => {
+  const requestOtp = async (phone, code,  fullName) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await OtpService.sendOtp(phone, fullName);
+      const data = await OtpService.sendOtp(phone, code,  fullName);
       return { success: true, data };
     } catch (err) {
       const msg = err.response?.data?.message || "Kodni yuborishda xatolik";
@@ -20,11 +20,11 @@ export const useOtp = () => {
     }
   };
 
-  const verifyOtp = async (phone, code) => {
+  const verifyOtp = async (phone, code, fullName) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await OtpService.verifyOtp(phone, code);
+      const data = await OtpService.verifyOtp(phone, code, fullName);
       return { success: true, data };
     } catch (err) {
       const msg = err.response?.data?.message || "Kod noto'g'ri";

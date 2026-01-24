@@ -134,7 +134,7 @@ export default function Form() {
                   boxShadow: "0 0 0 1px #E4E4E7",
                   "&.Mui-focused": { boxShadow: "0 0 0 2px #10355B" },
                   px: { xs: "16px", md: "30px" },
-                  py: { xs: "14px", md: "24px" },
+                  py: { xs: "17px", md: "24px" },
                 }}
               >
                 {cities.map((city) => (

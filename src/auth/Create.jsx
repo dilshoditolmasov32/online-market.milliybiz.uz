@@ -22,7 +22,7 @@ export default function Create({
   const handleNextStep = async () => {
     const cleanPhone = phone.replace(/\D/g, "");
     const result = await requestOtp(cleanPhone, fullName);
-    if (result.success) {
+    if (result.success) { 
       setCurrent("code");
     }
   };

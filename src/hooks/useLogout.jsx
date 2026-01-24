@@ -13,7 +13,7 @@ export function useLogout() {
       await logoutCustomer();
 
       localStorage.removeItem("token");
-
+      window.location.href = "/";
       navigate("/", { replace: true });
     } finally {
       setLoading(false);

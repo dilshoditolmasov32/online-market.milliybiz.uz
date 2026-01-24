@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { Trash2, Plus, Minus, Check } from "lucide-react";
-import tableDefault from "../../assets/img/table.svg";
 import { updateCartItem, removeCartItem } from "../../service/cart.service";
 import debounce from "lodash.debounce";
 import { useCallback, useState, useEffect } from "react";
 
 export default function Cart({ prod, refresh,  isChecked,
-  onToggleCheck, }) {
+  onToggleCheck, onQtyChange}) {
   const { product } = prod;
   const { t } = useTranslation();
   const [localQty, setLocalQty] = useState(prod.quantity);
@@ -31,8 +30,10 @@ export default function Cart({ prod, refresh,  isChecked,
   const handleQtyChange = (change) => {
     const newQty = localQty + change;
     if (newQty < 1) return;
-
     setLocalQty(newQty);
+if (onQtyChange) {
+      onQtyChange(prod.id, newQty); 
+    }
     debouncedUpdate(prod.id, newQty);
   };
 
